@@ -12,10 +12,12 @@ class RoomView(generics.CreateAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
 
+
 class CreateRoomView(APIView):
     serializer_class = CreateRoomSerializer
+
     def post(self, request, format=None):
-        #get access to the session id if the user is in the system
+        # get access to the session id if the user is in the system
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create()
 
@@ -23,21 +25,22 @@ class CreateRoomView(APIView):
         if serializer.is_valid():
             guest_can_pause = serializer.data.get('guest_can_pause')
             votes_to_skip = serializer.data.get('votes_to_skip')
-    #Assign host to a session key
+    # Assign host to a session key
             host = self.request.session.session_key
-            #check if the room being created ha s an existing host
+            # check if the room being created ha s an existing host
             queryset = Room.objects.filter(host=host)
-    #check if host session key is available
+    # check if host session key is available
             if queryset.exists():
                 room = queryset[0]
                 room.guest_can_pause = guest_can_pause
                 room.votes_to_skip = votes_to_skip
-                #update field not create a new room, if room exists
-                room.save(update_fields=['guest_can_pause','votes_to_skip'])
+                # update field not create a new room, if room exists
+                room.save(update_fields=['guest_can_pause', 'votes_to_skip'])
             else:
-                #create a new room
-                room = Room(host=host, guest_can_pause=guest_can_pause, votes_to_skip=votes_to_skip)
+                # create a new room
+                room = Room(host=host, guest_can_pause=guest_can_pause,
+                            votes_to_skip=votes_to_skip)
                 room.save()
-            #return response if room was created successfully
-            
+            # return response if room was created successfully
+
             return Response(RoomSerializer(room).date, status=status.HTTP_201_CREATED)
