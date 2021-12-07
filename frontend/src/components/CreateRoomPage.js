@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import Button from "@material-ui/core";
 import {
     Grid, Typography, FormHelperText,
     TextField, FormControl, Radio,
     RadioGroup, FormControlLabel
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { Button } from "@material-ui/core";
 
 import { render } from "react-dom";
 
@@ -64,6 +64,16 @@ export default class CreateRoomPage extends Component {
                             <div align="center">Votes Required To Skip Song</div>
                         </FormHelperText>
                     </FormControl>
+                </Grid>
+                <Grid item xs={12} align="center">
+                    <Button color="secondary" variant="contained">
+                       Create A Room
+                    </Button>
+                </Grid>
+                <Grid item xs={12} align="center">
+                    <Button color="primary" variant="contained" to="/" component={Link}> 
+                       Back Home
+                    </Button>
                 </Grid>
             </Grid >
         );
