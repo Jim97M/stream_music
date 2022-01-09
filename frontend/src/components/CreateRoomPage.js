@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import {Collapse} from "@material-ui/core";
 export default class CreateRoomPage extends Component {
 
   static defaultProps = {
@@ -35,6 +36,7 @@ export default class CreateRoomPage extends Component {
     this.handleGuestCanPauseChange = this.handleGuestCanPauseChange.bind(this);
     this.renderCreateButton = this.renderCreateButton.bind(this);
     this.renderUpdateButton = this.renderUpdateButton.bind(this);
+    this.handleUpdateButtonPressed = this.handleUpdateButtonPressed.bind(this);
   }
  
   handleVotesChange(e) {
@@ -78,17 +80,8 @@ handleRoomButtonPressed() {
     }),
   };
   fetch("/api/create-room", requestOptions)
-    .then((response) =>{
-      if(response.ok){
-          this.setState({
-            successMsg: "Room Updated Successfully",
-          })
-      }else{
-        this.setState({
-          errorMsg: "Error Updating Room!!",
-        })
-      }
-    })
+    .then((response) => response.json())
+    .then((data) => this.props.history.push("/room/" + data.code));
 }
 
 
@@ -103,9 +96,18 @@ handleUpdateButtonPressed(){
     }),
   };
   fetch("/api/update-room", requestOptions)
-    .then((response) => response.json())
-    .then((data) => this.props.history.push("/room/" + data.code));
-}
+    .then((response) =>  {
+      if(response.ok){
+          this.setState({
+            successMsg: "Room Updated Successfully",
+          })
+      }else{
+        this.setState({
+          errorMsg: "Error Updating Room!!",
+        })
+      }
+     })
+ };
 
 renderCreateButton(){
   return(
@@ -134,7 +136,7 @@ renderCreateButton(){
     <Button
      color="primary"
      variant="contained"
-     onClick={this.handleRoomButtonPressed}
+     onClick={this.handleUpdateButtonPressed}
     >
       UPDATE ROOM
      </Button>
@@ -146,6 +148,11 @@ renderCreateButton(){
     const title = this.props.update ? "Update a Room" : "Create a Room";
     return (
       <Grid container spacing={1}>
+        <Grid item xs={12} align="center">
+           <Collapse in={this.state.errorMsg != "" || this.state.successMsg !=""}>
+              {this.state.successMsg}
+           </Collapse>    
+        </Grid>
         <Grid item xs={12} align="center">
           <Typography component="h4" variant="h4">
             {title}
