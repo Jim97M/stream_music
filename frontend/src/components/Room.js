@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, Grid, Typography } from "@material-ui/core";
+import CreateRoomPage from './CreateRoomPage';
 export default class Room extends Component {
   constructor(props) {
     super(props);
@@ -13,6 +14,8 @@ export default class Room extends Component {
     this.getRoomDetails();
     this.leaveRoomRequest = this.leaveRoomRequest.bind(this);
     this.updateShowSettings = this.updateShowSettings.bind(this);
+    this.renderUpdateButton = this.renderUpdateButton.bind(this);
+    this.renderSettings = this.renderSettings.bind(this);
   }
 
   getRoomDetails() {
@@ -51,6 +54,29 @@ export default class Room extends Component {
     })
   }
 
+  renderSettings(){
+    return(
+      <Grid container spacing="1">
+          <Grid item xs={12} alignItems="center">
+              <CreateRoomPage 
+                 update={true}
+                 votesToSkip={this.state.votesToSkip}
+                 guestCanPause={this.state.guestCanPause}
+                 roomCode={this.roomCode}
+                 updateCallback ={() => { }}/>
+          </Grid>
+          <Grid xs={12} alignItems="center">
+          <Button 
+                variant="contained"
+                color="settings"
+                onClick={() => this.updateShowSettings(false)}>
+                 Close
+          </Button>
+          </Grid>
+      </Grid>
+    )
+  }
+
   renderUpdateButton(){
     return(
       <Grid item xs={12} align="center">
@@ -65,6 +91,9 @@ export default class Room extends Component {
   }
 
   render() {
+    if (this.state.showSettings){
+       return this.renderSettings();
+    } 
     return (
          <Grid container spacing={1}>
             <Grid item xs={12} align="center">
@@ -87,6 +116,7 @@ export default class Room extends Component {
                   Host: {this.state.isHost.toString()}
                </Typography>
            </Grid>
+           {this.state.isHost == false ? this.renderUpdateButton() : null}
            <Grid item xs={12} align="center">
                <Button variant="contained" color="secondary" onClick={this.leaveRoomRequest}>
                     Leave Music Room
