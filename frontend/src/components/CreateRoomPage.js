@@ -32,7 +32,6 @@ export default class CreateRoomPage extends Component {
     };
 
     this.handleRoomButtonPressed = this.handleRoomButtonPressed.bind(this);
-    this.handleVotesChange = this.handleVotesChange.bind(this);
     this.handleGuestCanPauseChange = this.handleGuestCanPauseChange.bind(this);
     this.renderCreateButton = this.renderCreateButton.bind(this);
     this.renderUpdateButton = this.renderUpdateButton.bind(this);
@@ -81,7 +80,7 @@ handleRoomButtonPressed() {
   };
   fetch("/api/create-room", requestOptions)
     .then((response) => response.json())
-    .then((data) => this.props.history.push("/room/" + data.code));
+    .then((data) => /*this.props.history.push("/room/" + data.code)*/ console.log(data));
 }
 
 
