@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from requests.models import Response
 
 # Create your views here.
@@ -7,7 +7,9 @@ from rest_framework.views import APIView
 from requests import Request, post
 from rest_framework import status
 from http import HTTPStatus
+from .utils import update_create_user_tokens
 
+# Request authorization of the user via the application 
 class Auth_Url(APIView):
     def get(self, request, format=None):
       scope = 'user-read-playback-stack, user-modify-playback-state, user-read-currently-playing, playlist-read-collaborative',
@@ -20,3 +22,30 @@ class Auth_Url(APIView):
       }).prepare().url;
 
       return Response({'uri': uri}, status=HTTPStatus.OK)
+
+    #   Callback to process response from the authorization request
+
+def spotify_callback(request, format=None):
+    code = Request.GET.get('code'),
+    error = Request.GET.get('error')
+
+
+    response = post('https://accounts.spotify.com/api/token', data={
+    'grant_type': 'authorization_url',
+    'code': code,
+    'redirect_uri': REDIRECT_URI,
+    'client_id': CLIENT_ID,
+    'client_secret': CLIENT_SECRET
+      }).json()
+
+    access_token = response.get('access_token')
+    refresh_token = response.get('refresh_token')
+    token_type = response.get('token_type')
+    expires_in = response.get('expires_in')
+    error = response.get('error')
+ 
+    if not request.session.exists(request.session.session_key):
+        request.session.create()
+    
+    update_create_user_tokens(request.session.session_key, access_token, refresh_token, token_type, expires_in, error)
+    return redirect('frontend:')
