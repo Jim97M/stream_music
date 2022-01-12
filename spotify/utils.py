@@ -6,8 +6,9 @@ from datetime import timedelta
 from requests import post
 from .credentials import CLIENT_SECRET, CLIENT_ID
 
-def get_user_tokens():
+def get_user_tokens(session_id):
     user_tokens = SpotifyToken.objects.filter(user=session_id) 
+    print(user_tokens)
     if user_tokens.exists:
         return user_tokens[0]
     else:
@@ -33,6 +34,7 @@ def is_spotify_authenticated(session_id):
           expiry = tokens.expires_in
           if expiry <= timezone.now():
            refresh_spotify_token(session_id)
+          return True
     return False 
 def refresh_spotify_token(session_id):
     refresh_token = get_user_tokens(session_id).refresh_token
@@ -46,10 +48,10 @@ def refresh_spotify_token(session_id):
 
    
     access_token = response.get('access_token')
-    refresh_token = response.get(refresh_token)
+    refresh_token = response.get('refresh_token')
     token_type = response.get('token_type')
     expires_in = response.get('expires_in')
 
-    update_create_user_tokens(session_id)
+    update_create_user_tokens(session_id, access_token, refresh_token, token_type, expires_in)
 
     

@@ -7,7 +7,8 @@ from rest_framework.views import APIView
 from requests import Request, post
 from rest_framework import status
 from http import HTTPStatus
-from .utils import update_create_user_tokens
+from .utils import update_create_user_tokens, is_spotify_authenticated
+from django.views.decorators.csrf import csrf_protect
 
 # Request authorization of the user via the application 
 class Auth_Url(APIView):
@@ -24,11 +25,10 @@ class Auth_Url(APIView):
       return Response({'uri': uri}, status=HTTPStatus.OK)
 
     #   Callback to process response from the authorization request
-
+@csrf_protect
 def spotify_callback(request, format=None):
     code = Request.GET.get('code'),
     error = Request.GET.get('error')
-
 
     response = post('https://accounts.spotify.com/api/token', data={
     'grant_type': 'authorization_url',
@@ -49,3 +49,8 @@ def spotify_callback(request, format=None):
     
     update_create_user_tokens(request.session.session_key, access_token, refresh_token, token_type, expires_in, error)
     return redirect('frontend:')
+
+class IsAuthenticated(APIView):
+   def get(self, request, formart=None):
+     user_authenticated = is_spotify_authenticated(self.request.session.session_key)
+     return Response({"Status": user_authenticated}, status=status.HTTP_200_OK)
