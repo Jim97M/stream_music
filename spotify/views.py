@@ -25,7 +25,7 @@ class Auth_Url(APIView):
       return Response({'uri': uri}, status=HTTPStatus.OK)
 
     #   Callback to process response from the authorization request
-@csrf_protect
+
 def spotify_callback(request, format=None):
     code = Request.GET.get('code'),
     error = Request.GET.get('error')
@@ -47,10 +47,10 @@ def spotify_callback(request, format=None):
     if not request.session.exists(request.session.session_key):
         request.session.create()
     
-    update_create_user_tokens(request.session.session_key, access_token, refresh_token, token_type, expires_in, error)
+    update_create_user_tokens(request.session.session_key, access_token, refresh_token, token_type, expires_in)
     return redirect('frontend:')
 
 class IsAuthenticated(APIView):
    def get(self, request, formart=None):
-     user_authenticated = is_spotify_authenticated(self.request.session.session_key)
-     return Response({"Status": user_authenticated}, status=status.HTTP_200_OK)
+     is_authenticated = is_spotify_authenticated(self.request.session.session_key)
+     return Response({"Status": is_authenticated}, status=status.HTTP_200_OK)

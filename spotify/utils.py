@@ -8,7 +8,7 @@ from .credentials import CLIENT_SECRET, CLIENT_ID
 
 def get_user_tokens(session_id):
     user_tokens = SpotifyToken.objects.filter(user=session_id) 
-    print(user_tokens)
+    print(user)
     if user_tokens.exists:
         return user_tokens[0]
     else:

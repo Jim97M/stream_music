@@ -6,9 +6,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_protect
+from django.utils.decorators import method_decorator
 
 # Create your views here.
-
 
 class RoomView(generics.ListAPIView):
     queryset = Room.objects.all()
@@ -31,10 +31,10 @@ class GetRoom(APIView):
 
         return Response({'Bad Request': 'Code paramater not found in request'}, status=status.HTTP_400_BAD_REQUEST)
 
-
+@method_decorator(csrf_protect, name='post')
 class JoinRoom(APIView):
     lookup_url_kwarg = 'code'
-    @csrf_protect
+    
     def post(self, request, format=None):
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create()
@@ -54,7 +54,7 @@ class JoinRoom(APIView):
 
 class CreateRoomView(APIView):
     serializer_class = CreateRoomSerializer
-    @csrf_protect
+    
     def post(self, request, format=None):
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create()
@@ -95,7 +95,6 @@ class UserInRoom(APIView):
         return JsonResponse(data, status=status.HTTP_200_OK)
 
 class LeaveRoomSession(APIView):
-    @csrf_protect
     def post(self,request, format=None):
         #check room code exists in the current session
         if 'room_code' in self.request.session:
