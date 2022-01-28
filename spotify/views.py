@@ -11,7 +11,7 @@ from .utils import update_create_user_tokens, is_spotify_authenticated
 from django.views.decorators.csrf import csrf_protect
 
 # Request authorization of the user via the application 
-class Auth_Url(APIView):
+class AuthURL(APIView):
     def get(self, request, format=None):
       scope = 'user-read-playback-stack, user-modify-playback-state, user-read-currently-playing, playlist-read-collaborative',
       uri = Request('GET', 'https://accounts.spotify.com/authorize', params={
@@ -54,3 +54,4 @@ class IsAuthenticated(APIView):
    def get(self, request, formart=None):
      is_authenticated = is_spotify_authenticated(self.request.session.session_key)
      return Response({"Status": is_authenticated}, status=status.HTTP_200_OK)
+

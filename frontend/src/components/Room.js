@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Grid, Typography } from "@material-ui/core";
+import { Button, Grid, Typography, responsiveFontSizes } from "@material-ui/core";
 import CreateRoomPage from './CreateRoomPage';
 export default class Room extends Component {
   constructor(props) {
@@ -12,12 +12,13 @@ export default class Room extends Component {
       spotifyAuthenticate: false,
     };
     this.roomCode = this.props.match.params.roomCode;
-    this.getRoomDetails();
+    this.getRoomDetails = this.getRoomDetails.bind(this);
     this.leaveRoomRequest = this.leaveRoomRequest.bind(this);
     this.updateShowSettings = this.updateShowSettings.bind(this);
     this.renderUpdateButton = this.renderUpdateButton.bind(this);
     this.renderSettings = this.renderSettings.bind(this);
     this.isSpotifyAuthenticate = this.isSpotifyAuthenticate.bind(this);
+    this.getRoomDetails();
   }
 
   getRoomDetails() {
@@ -27,7 +28,7 @@ export default class Room extends Component {
            this.props.leaveRoomCallback();
            this.props.history.push("/");
          }  
-        response.json()
+        return response.json();
       })
       .then((data) => {
         this.setState({
@@ -35,11 +36,11 @@ export default class Room extends Component {
           guestCanPause: data.guest_can_pause,
           isHost: data.is_host,
         });
-      });
 
       if(!this.state.isHost){
-        this.isSpotifyAuthenticate()
+        this.isSpotifyAuthenticate();  
       }
+    });
   }
 
   isSpotifyAuthenticate(){
@@ -81,7 +82,7 @@ export default class Room extends Component {
                  votesToSkip={this.state.votesToSkip}
                  guestCanPause={this.state.guestCanPause}
                  roomCode={this.roomCode}
-                 updateCallback ={() => { }}/>
+                 updateCallback ={this.getRoomDetails}/>
           </Grid>
           <Grid xs={12} alignItems="center">
           <Button 

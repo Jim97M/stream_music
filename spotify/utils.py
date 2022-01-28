@@ -53,5 +53,3 @@ def refresh_spotify_token(session_id):
     expires_in = response.get('expires_in')
 
     update_create_user_tokens(session_id, access_token, refresh_token, token_type, expires_in)
-
-    
