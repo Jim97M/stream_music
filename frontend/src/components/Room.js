@@ -20,6 +20,7 @@ export default class Room extends Component {
     this.renderSettings = this.renderSettings.bind(this);
     this.isSpotifyAuthenticate = this.isSpotifyAuthenticate.bind(this);
     this.getRoomDetails();
+    this.getCurrentSong();
   }
 
   getRoomDetails() {
@@ -67,10 +68,11 @@ export default class Room extends Component {
        if(!response.ok){
          return {};
        }else{
-         response.json
+         return response.json
        }
      })
      .then((data) => this.setState({song: data}));
+     console.log(data);
   }
 
   leaveRoomRequest(){
@@ -139,7 +141,7 @@ export default class Room extends Component {
                </Typography>
             </Grid>
         
-           
+           {this.state.song}
            {this.state.isHost == false ? this.renderUpdateButton() : null}
            <Grid item xs={12} align="center">
                <Button variant="contained" color="secondary" onClick={this.leaveRoomRequest}>
