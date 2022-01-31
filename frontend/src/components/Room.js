@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Grid, Typography, responsiveFontSizes } from "@material-ui/core";
 import CreateRoomPage from './CreateRoomPage';
+import MusicPlayer from "./MusicPlayer";
 export default class Room extends Component {
   constructor(props) {
     super(props);
@@ -18,9 +19,18 @@ export default class Room extends Component {
     this.updateShowSettings = this.updateShowSettings.bind(this);
     this.renderUpdateButton = this.renderUpdateButton.bind(this);
     this.renderSettings = this.renderSettings.bind(this);
+    this.getCurrentSong = this.getCurrentSong.bind(this);
     this.isSpotifyAuthenticate = this.isSpotifyAuthenticate.bind(this);
     this.getRoomDetails();
-    this.getCurrentSong();
+  }
+
+
+  componentDidMount(){
+    this.interval = setInterval(this.getCurrentSong, 1000);
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.interval);
   }
 
   getRoomDetails() {
@@ -64,15 +74,18 @@ export default class Room extends Component {
 
 
   getCurrentSong(){
-     fetch('/spotify/current-song').then((response) => {
+     fetch("/spotify/current-song")
+     .then((response) => {
        if(!response.ok){
          return {};
        }else{
-         return response.json
+         return response.json();
        }
      })
-     .then((data) => this.setState({song: data}));
+     .then((data) => {
+       this.setState({song: data});
      console.log(data);
+    });  
   }
 
   leaveRoomRequest(){
@@ -140,8 +153,7 @@ export default class Room extends Component {
                   Code: {this.roomCode}
                </Typography>
             </Grid>
-        
-           {this.state.song}
+            <MusicPlayer {...this.state.song} />
            {this.state.isHost == false ? this.renderUpdateButton() : null}
            <Grid item xs={12} align="center">
                <Button variant="contained" color="secondary" onClick={this.leaveRoomRequest}>
