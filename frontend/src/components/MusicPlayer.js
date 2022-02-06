@@ -6,7 +6,7 @@ import {
     IconButton,
     LinearProgress,
 } from "@material-ui/core";
-import PlayerArrowIcon from "@material-ui/icons/PlayArrow";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PauseIcon from "@material-ui/icons/Pause";
 import SkipNextIcon from "@material-ui/icons/SkipNext";
 
@@ -15,10 +15,22 @@ export default class MusicPlayer extends Component{
         super(props);
     }
 
+
+    skipSong(){
+        const requestOptions = {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+        };
+
+        fetch("/spotify/next", requestOptions)
+
+        }
+    
+
     playSong(){
         const requestOptions = {
             method: "PUT",
-            headers: {"Content-Type": "application/json"}
+            headers: {"Content-Type": "application/json"},
         };
 
         fetch("/spotify/play", requestOptions)
@@ -28,8 +40,8 @@ export default class MusicPlayer extends Component{
     pauseSong(){
         const requestOptions = {
             method: "PUT",
-            headers: {"Content-Type": "application/json"}
-        }
+            headers: {"Content-Type": "application/json"},
+        };
 
         fetch("/spotify/pause", requestOptions)
     }
@@ -52,12 +64,13 @@ export default class MusicPlayer extends Component{
                        {this.props.artist}
                     </Typography>
                      <div>
-                         <IconButton onClick={() => {this.props.is_playing ? this.pauseSong() : this.playSong();
+                         <IconButton onClick={() => {
+                             this.props.is_playing ? this.pauseSong() : this.playSong();
                         }}>
-                            {this.props.is_playing ? <PauseIcon /> : <PlayerArrowIcon />}
+                            {this.props.is_playing ? <PauseIcon /> : <PlayArrowIcon />}
                         </IconButton>
-                        <IconButton>
-                           <SkipNextIcon />
+                        <IconButton onClick={() => this.skipSong()} >
+                           <SkipNextIcon /> {this.props.votes} / {" "} {this.props.votes_required}
                         </IconButton>
                      </div>
                 </Grid>
