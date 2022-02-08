@@ -1,6 +1,5 @@
 const path = require("path");
 const webpack = require("webpack");
-
 module.exports = {
     entry: "./src/index.js",
     output: {
@@ -17,7 +16,20 @@ module.exports = {
                 },
             },
 
-        ],
+            {
+                test: /\.(gif|png|jpe?g|svg)$/i,
+                use: [
+                    'file-loader',
+                    {
+                        loader: 'image-webpack-loader',
+                        options: {
+                            bypassOnDebug: true,
+                            disable: true,
+                        },
+                    }
+                ]
+            }
+        ]
     },
     optimization: {
         minimize: true,
