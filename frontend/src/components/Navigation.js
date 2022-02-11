@@ -18,7 +18,7 @@ function Navigation(){
                       <a href="">Features</a>
                   </li>
                   <li>
-                      <a href="">Pricing</a>
+                      <a href="">Sign Up</a>
                   </li>
               </ul>
               
@@ -34,10 +34,34 @@ const NavigationStyled = styled.nav`
     height: 10vh;
     align-items: center;
 
+    .logo{
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+    }
+
     ul{
         display: flex;
         justify-content: space-between;
         width: 40%;
+    }
+
+    li{
+
+        color:white;
+        border: 1px solid black;
+        border-radius: 10%;
+        font-size: 20px;
+        padding: 20px  15px 20px 15px;
+        font-family: sans-serif;
+        background-color: white;
+        font-weight: bold;
+    }
+
+    a{
+        text-decoration: none;
+        color: black;
     }
 `;
 

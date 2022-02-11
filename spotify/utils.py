@@ -6,7 +6,6 @@ from datetime import timedelta
 from .credentials import CLIENT_ID, CLIENT_SECRET
 from requests import post, put, get
 
-
 BASE_URL = "https://api.spotify.com/v1/me/"
 
 

@@ -4,6 +4,7 @@ import deejay from '../images/message_pink.svg';
 import sharemusic from '../images/message_blue.svg';
 import anim from '../images/imacon.jpg';
 import {Fade} from 'react-reveal';
+import SecondaryButton from "./Secondary";
 
 function HeaderContent(){
     return(
@@ -12,7 +13,8 @@ function HeaderContent(){
               <div className="left-contents">
                 <div className="left-text-container">
                     <h1> Stream Music </h1>
-                    <p className="white"> Share music among peers, stream music in a room and connect </p>       
+                    <p className="white"> Share music among peers, stream music in a room and connect </p>  
+                    <SecondaryButton />     
                 </div>
               </div>
               </Fade>
