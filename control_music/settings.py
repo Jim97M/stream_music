@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 from telnetlib import AUTHENTICATION
 import psycopg2
-import timedelta
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.contenttypes',
     'django.contrib.staticfiles',
     'api.apps.ApiConfig',
     'djoser',
@@ -136,11 +137,19 @@ DJOSER = {
     }
 }
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '',
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '',
-SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = []
-SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['', '']
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'AIzaSyCKoBstwfSBau2qh5DDE1SCHXpXu0McgbU',
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '617650396737-fr9apr4ke9ajluburlrp2n4nnmhomcej.apps.googleusercontent.com',
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile']
+SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
+SOCIAL_AUTH_FACEBOOK_KEY = '5128948987167460'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'b3eba3b888aedac2f8cc8d67b89cf57e'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['wabuyajames@yahoo.com']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'wabuyajames@yahoo.com,James, Wabuya'
+}
+
+AUTH_USER_MODEL = 'accounts.UserAccount'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
