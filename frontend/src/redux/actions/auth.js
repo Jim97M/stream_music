@@ -12,7 +12,9 @@ import{
   PASSWORD_RESET_CONFIRM_FAIL, 
   LOGOUT,
   USER_LOAD_SUCCESS,
-  USER_LOAD_FAIL
+  USER_LOAD_FAIL,
+  AUTHENTICATION_SUCCESS,
+  AUTHENTICATION_FAIL
 }from './types';
 
 
@@ -78,6 +80,36 @@ export const verify = ({uid, token}) => async dispatch => {
             type:ACTIVATION_FAIL,
         })
     }
+}
+
+
+export const checkAuthenticated = () => async dispatch => {
+        if(localStorage.getItem('access')){
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                }
+            }
+            const body = JSON.stringify({token: localStorage.getItem('access')});
+
+            try {
+                const res = await axios.post(`${process.env.API_URL}/auth/jwt/verify/`, body, config);
+                if(res.data.code !== 'token_not_valid'){
+                    dispatch({
+                        type: AUTHENTICATION_SUCCESS
+                    })
+                }else{
+                    dispatch({
+                        type: AUTHENTICATION_FAIL
+                    })
+                }
+            } catch (err) {
+                dispatch({
+                    type: AUTHENTICATION_FAIL
+                })
+            }
+        }
 }
 
 export const reset_password = (email) => async dispatch => {
@@ -163,6 +195,8 @@ export const load_users = () => async dispatch =>{
     }) 
   }
 } 
+
+
 
 export const logout = () => dispatch => {
     dispatch({
