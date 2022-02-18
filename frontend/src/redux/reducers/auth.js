@@ -44,7 +44,7 @@ export default function (state = initialState, action) {
           ...state,
           user: payload
         }
-    }
+    
 
       case AUTHENTICATION_FAIL:
         return{
@@ -77,10 +77,11 @@ export default function (state = initialState, action) {
 
         return{
           ...state,
-          access: null
+          access: null,
           refresh: null,
           isAuthenticated: false,
           user: null
         }
 
+}
 }

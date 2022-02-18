@@ -2,14 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import bg from '../images/Sound Wave.svg';
 import HeaderContent from './HeaderContent';
-import Navigation from './Navigation';
 
 function Home() {
     return(
         <HomeStyled>
             <div className="header-content">
-                <Navigation />
-                <HeaderContent />
+                <Link to='/login' role='button'>Login</Link>
             </div>
         </HomeStyled>
     )

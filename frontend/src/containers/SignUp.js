@@ -40,42 +40,42 @@ const SignUp = () => {
       <form onSubmit = {e => onSubmit(e)}>
           <div className="form-group">
             <input
-             name="first_name",
-             type="name",
-             value={name},
-             placeholder="Name",
+             name="first_name"
+             type="name"
+             value={name}
+             placeholder="Name"
              onChange = {e => onChange(e)}
             />
            <input
-             name="last_name",
-             type="name",
-             value={name},
-             placeholder="Name",
+             name="last_name"
+             type="name"
+             value={name}
+             placeholder="Name"
              onChange = {e => onChange(e)}
             />
            <input
-             name="email",
-             type="email",
-             value={email},
-             placeholder="Email",
+             name="email"
+             type="email"
+             value={email}
+             placeholder="Email"
              onChange = {e => onChange(e)}
             />
            <input
-             name="password",
-             type="password",
-             value={password},
-             placeholder="Password",
-             onChange = {e => onChange(e)},
-             minLength = '6',
+             name="password"
+             type="password"
+             value={password}
+             placeholder="Password"
+             onChange = {e => onChange(e)}
+             minLength = '6'
              required
             />
            <input
-             name="re_password",
-             type="password",
-             value={re_password},
-             placeholder="Confirm Password",
-             onChange = {e => onChange(e)},
-             minLength = '6',
+             name="re_password"
+             type="password"
+             value={re_password}
+             placeholder="Confirm Password"
+             onChange = {e => onChange(e)}
+             minLength = '6'
              required
             />
           </div>
