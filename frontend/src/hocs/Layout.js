@@ -13,6 +13,7 @@ const Layout = ({checkAuthenticated, load_users, children}) => {
     return(
         <div>
             <Navigation />
+            {children}
         </div>
     )
 }

@@ -33,7 +33,7 @@ const Login = ({login, isAuthenticated}) => {
              className="form-control"
              type='email'
              placeholder='Email'
-             onChange={e =>onChange()}
+             onChange={e =>onChange(e)}
              value={email}
              name='email'
              required
@@ -44,7 +44,7 @@ const Login = ({login, isAuthenticated}) => {
                className="form-control"
                type='password'
                placeholder='Password'
-               onChange={e =>onChange()}
+               onChange={e =>onChange(e)}
                value={password}
                name='password'
                minLength='6'
@@ -67,9 +67,9 @@ const Login = ({login, isAuthenticated}) => {
     );
 };
 
-const mapStateToProps = state => {
-    isAuthenticated: state.auth.isAuthenticated;
-};
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated,
+});
 
 
 export default connect(mapStateToProps, {login}) (Login);

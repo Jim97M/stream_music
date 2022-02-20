@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
-
+from rest_framework.authtoken import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
@@ -25,6 +25,8 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
     path('auth/', include('djoser.social.urls')),
+    path('api-token-auth/', views.obtain_auth_token, name='api-token-auth')
+
  ]
 
 urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]

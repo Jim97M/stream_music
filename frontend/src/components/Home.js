@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import bg from '../images/Sound Wave.svg';
 import HeaderContent from './HeaderContent';
-
+import {Link} from 'react-router-dom';
 function Home() {
     return(
         <HomeStyled>

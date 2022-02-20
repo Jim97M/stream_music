@@ -2,28 +2,24 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
-import store from "../store";
-import Layout from "../hocs/Layout";
-import Home from "./Home";
-import HomePage from "./HomePage";
-import Login from "../containers/Login";
-import SignUp from "../containers/SignUp";
-import Activate from "../containers/Activate";
-import ResetPassword from "../containers/ResetPassword";
-import ResetPasswordConfirm from "../containers/ResetPasswordConfirm";
+import store from "./store";
+import Layout from "./hocs/Layout";
+import Home from "./components/Home";
+import HomePage from "./components/HomePage";
+import Login from "./containers/Login";
+import SignUp from "./containers/SignUp";
+import Activate from "./containers/Activate";
+import ResetPassword from "./containers/ResetPassword";
+import ResetPasswordConfirm from "./containers/ResetPasswordConfirm";
 
 
 export default class App extends Component {
-    constructor(props) {
-        super(props)
+    constructor(props){
+        super(props);
     }
-    render() {
-        return (
-            // <div className="App">
-            //     {/* <HomePage /> */}
-            //      {/* <Home /> */}
-            // </div>
-        
+
+    render(){
+    return(
         <Provider store={store}>
            <Router>
                <Layout>

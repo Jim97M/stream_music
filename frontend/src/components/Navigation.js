@@ -40,7 +40,8 @@ function Navigation({logout, isAuthenticated}){
               </div>
               <ul>
                   <li className='nav-item active'>
-                      <Link className='nav-link' >Home <span className='sr-only'>(current)</span> </Link>
+                      {/* <Link className='nav-link' >Home <span className='sr-only'>(current)</span> </Link> */}
+                      <Link to='/login' role='button'>Login</Link>
                   </li>
                   {isAuthenticated ? authLinks() : guest_links()}
               </ul>
@@ -52,12 +53,13 @@ function Navigation({logout, isAuthenticated}){
 }
 
 const NavigationStyled = styled.nav`
-    s
+    .nav-item{
     display: flex;
     justify-content: space-between;
     height: 10vh;
     align-items: center;
-
+    }
+    
     .logo{
         background-position: center;
         background-repeat: no-repeat;
