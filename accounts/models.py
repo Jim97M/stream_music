@@ -1,9 +1,20 @@
+import urllib.request 
+import http.cookiejar
 from django.db import models
+from django.shortcuts import render
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-
+from django.views.decorators.csrf import csrf_protect
+@csrf_protect
 class UserAccountManager(BaseUserManager):
     # Create your models here.
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, request, email, password=None, **extra_fields):
+        cookiejar = http.cookiejar.CookieJar()
+        cookieproc = urllib.request.HTTPCookieProcessor(cookiejar)
+        opener = urllib.request.build_opener(cookieproc)
+        response = opener.open("http://127.0.0.1:8000/")
+        for cookie in cookiejar:
+            print(cookie.name, cookie.value)
+
         if not email:
             raise ValueError('Users must have an email address')
 
@@ -13,7 +24,7 @@ class UserAccountManager(BaseUserManager):
         user.set_password(password)
         user.save()
          
-        return user
+        return render(request, "frontend/index.html", user)
 
 
 class UserAccount(AbstractBaseUser, PermissionsMixin):
@@ -23,7 +34,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    objects = UserAccountManager()
+    objects = UserAccountManager(urllib.request)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
